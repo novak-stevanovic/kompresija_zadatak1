@@ -1,0 +1,35 @@
+PROJEKTNI ZADATAK 1 - KOMPRESIJA PODATAKA
+
+Implementirani su bajt-entropija, Shannon-Fano, Huffman, LZ77 i LZW,
+kao i dekompresija za sva cetiri algoritma. Implementacija je u C-u i
+koristi samo standardnu biblioteku.
+
+Test fajl:
+  data/tekst.txt
+  velicina: 1600187 B
+  bajt-entropija: 4.284601 bit/B
+
+Rezultati:
+  Algoritam       Kompresovano   Udeo originala   Usteda
+  Shannon-Fano       862859 B        53.92%        46.08%
+  Huffman            861168 B        53.82%        46.18%
+  LZ77               602378 B        37.64%        62.36%
+  LZW                477274 B        29.83%        70.17%
+
+Za svaki algoritam je posle kompresije izvrsena dekompresija i rezultat
+je bajt-po-bajt jednak originalnom fajlu.
+
+Kompresovani fajl pocinje oznakom formata, identifikatorom algoritma i
+originalnom velicinom. Shannon-Fano i Huffman zatim cuvaju kodno stablo,
+pa tek kodirane podatke. LZ77 koristi prozor od 4095 bajtova, dok LZW
+koristi recnik sa 12-bitnim kodovima i najvise 4096 stavki.
+
+Pokretanje:
+  make
+  ./kompresija entropy data/tekst.txt
+  ./kompresija benchmark data/tekst.txt
+
+Primer pojedinacne provere:
+  ./kompresija compress huffman data/tekst.txt build/tekst.huf
+  ./kompresija decompress build/tekst.huf build/vracen.txt
+  cmp data/tekst.txt build/vracen.txt
