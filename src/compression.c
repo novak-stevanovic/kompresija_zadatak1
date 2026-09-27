@@ -338,7 +338,7 @@ static int same_file(const char *a, const char *b)
         return 0;
     }
 
-    for (;;) {
+    while (1) {
         int ca = fgetc(fa);
         int cb = fgetc(fb);
 
@@ -377,20 +377,17 @@ int benchmark_file(const char *input)
     free_buffer(&buffer);
 
     for (i = 0; i < sizeof(algorithms) / sizeof(algorithms[0]); ++i) {
-        char compressed[128];
-        char restored[128];
+        const char *compressed = "benchmark.bin";
+        const char *restored = "benchmark.out";
         long original = file_size(input);
         long packed;
         double ratio;
         int ok;
 
-        snprintf(compressed, sizeof(compressed),
-                 "build/bench_%s.bin", algorithm_name(algorithms[i]));
-        snprintf(restored, sizeof(restored),
-                 "build/bench_%s.out", algorithm_name(algorithms[i]));
-
         if (compress_file(algorithms[i], input, compressed) != 0 ||
             decompress_file(compressed, restored) != 0) {
+            remove(compressed);
+            remove(restored);
             return -1;
         }
 
@@ -401,6 +398,9 @@ int benchmark_file(const char *input)
         printf("%-14s %12ld %9.2f%% %10s\n",
                algorithm_name(algorithms[i]), packed, ratio * 100.0,
                ok ? "yes" : "no");
+
+        remove(compressed);
+        remove(restored);
 
         if (!ok) {
             return -1;

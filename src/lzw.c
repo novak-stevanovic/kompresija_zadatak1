@@ -22,7 +22,7 @@ static int dict_find(HashEntry table[HASH_SIZE], uint16_t prefix,
 {
     unsigned index = pair_hash(prefix, suffix);
 
-    for (;;) {
+    while (1) {
         HashEntry *entry = &table[index];
 
         if (entry->code < 0) {

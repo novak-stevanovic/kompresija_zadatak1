@@ -13,9 +13,9 @@ make
 
 ```sh
 ./kompresija entropy data/tekst.txt
-./kompresija compress huffman data/tekst.txt build/tekst.huf
-./kompresija decompress build/tekst.huf build/vracen.txt
-cmp data/tekst.txt build/vracen.txt
+./kompresija compress huffman data/tekst.txt tekst.huf
+./kompresija decompress tekst.huf vracen.txt
+cmp data/tekst.txt vracen.txt
 ./kompresija benchmark data/tekst.txt
 ```
 

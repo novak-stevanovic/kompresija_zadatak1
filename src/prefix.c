@@ -75,7 +75,7 @@ static int heap_pop(Heap *heap)
 
     heap->item[0] = heap->item[heap->size];
 
-    for (;;) {
+    while (1) {
         int left = i * 2 + 1;
         int right = left + 1;
         int best = i;
